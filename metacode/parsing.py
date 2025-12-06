@@ -27,10 +27,7 @@ def get_commment_from_cst(comment: str) -> Optional[str]:
     if not comment:
         return None
 
-    try:
-        module = cst_parse(comment)
-    except CSTSyntaxError:
-        return get_right_part(comment)
+    module = cst_parse(comment)
 
     try:
         statement = next(s for s in module.body if isinstance(s, SimpleStatementLine))
