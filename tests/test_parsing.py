@@ -1,9 +1,9 @@
-from ast import AST, BinOp, Subscript, Name
+from ast import AST, BinOp, Name, Subscript
 
 import pytest
 from full_match import match
 
-from metacode import parse, ParsedComment, UnknownArgumentTypeError
+from metacode import ParsedComment, UnknownArgumentTypeError, parse
 
 
 def test_wrong_key():

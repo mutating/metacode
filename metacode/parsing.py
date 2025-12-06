@@ -1,8 +1,10 @@
-from typing import List, Generator, Union, Optional
-from ast import AnnAssign, Name, Tuple, Subscript, Constant, AST, parse as ast_parse
+from ast import AST, AnnAssign, Constant, Name, Subscript, Tuple
+from ast import parse as ast_parse
 from dataclasses import dataclass
+from typing import Generator, List, Optional, Union
 
-from libcst import SimpleStatementLine, parse_module as cst_parse
+from libcst import SimpleStatementLine
+from libcst import parse_module as cst_parse
 from libcst._exceptions import ParserSyntaxError as CSTSyntaxError
 
 from metacode.errors import UnknownArgumentTypeError
