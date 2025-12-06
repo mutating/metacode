@@ -49,19 +49,19 @@ def get_candidates(comment: str) -> Generator[ParsedComment, None, None]:
         if not (len(parsed_ast.body) != 1 or not isinstance(parsed_ast.body[0], AnnAssign) or not isinstance(parsed_ast.body[0].target, Name) or not isinstance(parsed_ast.body[0].annotation, (Name, Subscript))):
 
             assign = parsed_ast.body[0]
-            key = assign.target.id
+            key = assign.target.id  # type: ignore[union-attr]
 
             arguments = []
             if isinstance(assign.annotation, Name):
                 command = assign.annotation.id
 
             else:
-                command = assign.annotation.value.id
+                command = assign.annotation.value.id  # type: ignore[attr-defined]
 
-                if isinstance(assign.annotation.slice, Tuple):
-                    slice_content = assign.annotation.slice.elts
+                if isinstance(assign.annotation.slice, Tuple):  # type: ignore[attr-defined]
+                    slice_content = assign.annotation.slice.elts  # type: ignore[attr-defined]
                 else:
-                    slice_content = [assign.annotation.slice]
+                    slice_content = [assign.annotation.slice]  # type: ignore[attr-defined]
 
                 for argument in slice_content:
                     if isinstance(argument, Name):
