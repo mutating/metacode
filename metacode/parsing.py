@@ -100,7 +100,7 @@ def parse(comment: str, key: str, allow_ast: bool = False, ignore_case: bool = F
         if candidate.key == key or (candidate.key.lower() == key.lower() and ignore_case):
             for argument in candidate.arguments:
                 if isinstance(argument, AST) and not allow_ast:
-                    raise UnknownArgumentTypeError(f'An argument of unknown type was found in the comment {repr(comment)}.')
+                    raise UnknownArgumentTypeError(f'An argument of unknown type was found in the comment {comment!r}.')
             result.append(candidate)
 
     return result
