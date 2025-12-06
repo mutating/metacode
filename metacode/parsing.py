@@ -32,7 +32,11 @@ def get_commment_from_cst(comment: str) -> Optional[str]:
     except CSTSyntaxError:
         return get_right_part(comment)
 
-    statement = next(s for s in module.body if isinstance(s, SimpleStatementLine))
+    try:
+        statement = next(s for s in module.body if isinstance(s, SimpleStatementLine))
+    except StopIteration:
+        return get_right_part(comment)
+
     trailing_whitespace = statement.trailing_whitespace
     comment_of_comment = trailing_whitespace.comment.value if trailing_whitespace.comment is not None else None
 

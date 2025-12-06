@@ -99,3 +99,12 @@ def test_multiple_not_simple_expressions():
     assert parse('lol: kek[a] # lol: kek[a, b, c]', 'lol') == [ParsedComment(key='lol', command='kek', arguments=['a']), ParsedComment(key='lol', command='kek', arguments=['a', 'b', 'c'])]
     assert parse('lol: kek[a] # lol: kek', 'lol') == [ParsedComment(key='lol', command='kek', arguments=['a']), ParsedComment(key='lol', command='kek', arguments=[])]
     assert parse('lol: kek[a, b, c] # lol: kek', 'lol') == [ParsedComment(key='lol', command='kek', arguments=['a', 'b', 'c']), ParsedComment(key='lol', command='kek', arguments=[])]
+
+
+def test_empty_subcomment():
+    assert parse('kek! # #c[]: lel', 'lol') == []
+    assert parse('kek! ##c[]: lel', 'lol') == []
+    assert parse('##c[]: lel', 'lol') == []
+    assert parse('#####################', 'lol') == []
+    assert parse('# ###### ##### # ## #### ##', 'lol') == []
+    assert parse('                                      # ###### ##### # ## #### ##', 'lol') == []
