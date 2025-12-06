@@ -91,7 +91,7 @@ def test_parse_ast_subscription_argument_when_its_allowed():
 
 
 def test_parse_ast_complex_sum_argument_when_its_not_allowed():
-    with pytest.raises(UnknownArgumentTypeError, match=match('An argument of unknown type was found in the comment \'lol: kek[3 + 5j]\'.')):
+    with pytest.raises(UnknownArgumentTypeError, match=match('An argument of unknown type was found in the comment \'lol: kek[3 + 5j]\'. If you want to process arbitrary code variants, not just constants, pass allow_ast=True.')):
         parse('lol: kek[3 + 5j]', 'lol')
 
 
