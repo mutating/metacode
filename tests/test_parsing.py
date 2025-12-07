@@ -111,6 +111,11 @@ def test_empty_subcomment():
 
 
 def test_sub_expressions_in_arguments():
+    from ast import dump
+    try:
+        print(dump(parse('lol: kek[a-b]', 'lol', allow_ast=True)[0].arguments[0]))
+    except TypeError:
+        pass
     assert parse('lol: kek[a-b]', 'lol') == [ParsedComment(key='lol', command='kek', arguments=['a-b'])]
 
 
@@ -124,5 +129,4 @@ def test_triple_subs():
 
     argument = parsed_comment.arguments[0]
 
-    print(type(argument))
     assert isinstance(argument, (BinOp, Index))
