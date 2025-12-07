@@ -85,14 +85,15 @@ def test_parse_ast_subscription_argument_when_its_allowed():
 
     assert isinstance(ast_argument, AST)
     # TODO: delete this shit about Index if minimum supported version of Python is > 3.8 (we have the Index node only in old Pythons).
-    from ast import dump
-    print(dump(ast_argument))
     assert isinstance(ast_argument, (Subscript, Index))
     if isinstance(ast_argument, Index):
         ast_argument = ast_argument.value
     assert ast_argument.value.id == 'jej'
-    assert isinstance(ast_argument.slice, Name)
-    assert ast_argument.slice.id == 'ok'
+    assert isinstance(ast_argument.slice, (Name, Index))
+    if isinstance(ast_argument.slice, Index):
+        assert ast_argument.slice.value.id == 'ok'
+    else:
+        assert ast_argument.slice.id == 'ok'
 
 
 def test_parse_ast_complex_sum_argument_when_its_not_allowed():
