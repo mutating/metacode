@@ -1,4 +1,5 @@
-from ast import AST, AnnAssign, Constant, Name, Subscript, Tuple, BinOp, Index, parse as ast_parse
+from ast import AST, AnnAssign, BinOp, Constant, Index, Name, Subscript, Tuple
+from ast import parse as ast_parse
 from dataclasses import dataclass
 from typing import Generator, List, Optional, Union
 
