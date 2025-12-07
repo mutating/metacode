@@ -70,7 +70,7 @@ def get_candidates(comment: str) -> Generator[ParsedComment, None, None]:
 
                 for argument in slice_content:
                     # TODO: delete this branch if minimum supported version of Python is > 3.8 (we have the Index node only in old Pythons).
-                    if isinstance(argument, Index):
+                    if isinstance(argument, Index):  # pragma: no cover
                         argument = argument.value
                     if isinstance(argument, Name):
                         arguments.append(argument.id)
