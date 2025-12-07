@@ -124,4 +124,5 @@ def test_triple_subs():
 
     argument = parsed_comment.arguments[0]
 
+    print(type(argument))
     assert isinstance(argument, BinOp)
