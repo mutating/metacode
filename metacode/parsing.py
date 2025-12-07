@@ -112,6 +112,8 @@ def parse(comment: str, key: str, allow_ast: bool = False, ignore_case: bool = F
         if candidate.key == key or (candidate.key.lower() == key.lower() and ignore_case):
             for argument in candidate.arguments:
                 if isinstance(argument, AST) and not allow_ast:
+                    from ast import dump
+                    print(dump, argument)
                     raise UnknownArgumentTypeError(f'An argument of unknown type was found in the comment {comment!r}. If you want to process arbitrary code variants, not just constants, pass allow_ast=True.')
             result.append(candidate)
 
