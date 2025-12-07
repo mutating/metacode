@@ -47,6 +47,7 @@ def test_one_difficult_expression():
     assert parse('lol: kek["a", "b", "c"]', 'lol') == [ParsedComment(key='lol', command='kek', arguments=['a', 'b', 'c'])]
     assert parse('lol: kek["a", False, 111]', 'lol') == [ParsedComment(key='lol', command='kek', arguments=['a', False, 111])]
     assert parse('lol: kek[True, None, 111.5, 5j]', 'lol') == [ParsedComment(key='lol', command='kek', arguments=[True, None, 111.5, 5j])]
+    assert parse('lol: kek[...]', 'lol') == [ParsedComment(key='lol', command='kek', arguments=[Ellipsis])]
 
     assert parse('lol: kek[a]', 'kek') == []
 
