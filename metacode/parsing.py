@@ -69,13 +69,13 @@ def get_candidates(comment: str) -> Generator[ParsedComment, None, None]:
                     slice_content = [assign.annotation.slice]  # type: ignore[attr-defined]
 
                 for argument in slice_content:
+                    # TODO: delete this branch if minimum supported version of Python is > 3.8 (we have the Index node only in old Pythons).
+                    if isinstance(argument, Index):
+                        argument = argument.value
                     if isinstance(argument, Name):
                         arguments.append(argument.id)
                     elif isinstance(argument, Constant):
                         arguments.append(argument.value)
-                    # TODO: delete this branch if minimum supported version of Python is > 3.8 (we have the Index node only in old Pythons).
-                    elif isinstance(argument, Index) and isinstance(argument.value, BinOp) and isinstance(argument.value.left, Name) and isinstance(argument.value.right, Name):  # pragma: no cover
-                        arguments.append(f'{argument.value.left.id}-{argument.value.right.id}')
                     elif isinstance(argument, BinOp) and isinstance(argument.left, Name) and isinstance(argument.right, Name):
                         arguments.append(f'{argument.left.id}-{argument.right.id}')
                     else:
