@@ -62,6 +62,20 @@ Consider a comment designed to ignore a specific mypy rule:
 └-key-┘└action⊥arguments-┘
 ```
 
+> ↑ The key here is the word `type`, that is, what you see before the colon. The action is the `ignore` word, that is, what comes before the square brackets, but after the colon. Finally, the list of arguments is what is in square brackets, in this case, there is only one argument in it: `error-code`.
+
+Simplified writing is also possible, without a list of arguments:
+
+```
+# type: ignore
+└-key-┘└action┘
+```
+
+> ↑ In this case, the parser assumes that there is an argument list, but it is empty.
+
+
+
+
 
 
 ## Installation
