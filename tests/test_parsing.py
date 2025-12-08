@@ -122,6 +122,20 @@ def test_sub_expressions_in_arguments():
     assert parse('lol: kek[a-b]', 'lol') == [ParsedComment(key='lol', command='kek', arguments=['a-b'])]
 
 
+def test_plus_expressions_in_arguments():
+    with pytest.raises(UnknownArgumentTypeError, match=match('An argument of unknown type was found in the comment \'lol: kek[a+b]\'. If you want to process arbitrary code variants, not just constants, pass allow_ast=True.')):
+        parse('lol: kek[a+b]', 'lol')
+
+    parsed_comments = parse('lol: kek[a+b]', 'lol', allow_ast=True)
+    comment = parsed_comments[0]
+
+    assert comment.key == 'lol'
+    assert comment.command == 'kek'
+
+    assert len(comment.arguments) == 1
+    assert isinstance(comment.arguments[0], AST)
+
+
 def test_triple_subs():
     with pytest.raises(UnknownArgumentTypeError, match=match('An argument of unknown type was found in the comment \'lol: kek[a-b-c]\'. If you want to process arbitrary code variants, not just constants, pass allow_ast=True.')):
         parse('lol: kek[a-b-c]', 'lol')

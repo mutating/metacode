@@ -1,4 +1,4 @@
-from ast import AST, AnnAssign, BinOp, Constant, Index, Name, Subscript, Tuple
+from ast import AST, AnnAssign, BinOp, Constant, Index, Name, Subscript, Tuple, Sub
 from ast import parse as ast_parse
 from dataclasses import dataclass
 from typing import Generator, List, Optional, Union
@@ -82,7 +82,7 @@ def get_candidates(comment: str) -> Generator[ParsedComment, None, None]:
                         arguments.append(argument.id)
                     elif isinstance(argument, Constant):
                         arguments.append(argument.value)
-                    elif isinstance(argument, BinOp) and isinstance(argument.left, Name) and isinstance(argument.right, Name):
+                    elif isinstance(argument, BinOp) and isinstance(argument.left, Name) and isinstance(argument.right, Name) and isinstance(argument.op, Sub):
                         arguments.append(f'{argument.left.id}-{argument.right.id}')
                     else:
                         arguments.append(argument)
