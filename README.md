@@ -82,6 +82,7 @@ The number of arguments in the list is unlimited, they can be separated by comma
 - Boolean literals (`True` and `False`).
 - `None`.
 - `...` (ellipsis).
+- Any other Python-compatible code. This is disabled by default, but you can force the mode of reading such code and get descriptions for any inserts of such code in the form of `AST` objects, after which you can somehow process it yourself.
 
 The syntax of all these data types is completely similar to the Python original (except that you can't use multi-line writing options).
 
