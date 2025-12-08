@@ -129,6 +129,16 @@ print(parse('type: ignore[error-code] # type: not_ignore[another-error]', 'type'
 #> [ParsedComment(key='type', command='ignore', arguments=['error-code']), ParsedComment(key='type', command='not_ignore', arguments=['another-error'])]
 ```
 
+As you can see, the `parse()` function returns a list of `ParsedComment` objects. Here are the fields of this type's objects and their expected types:
+
+```python
+key: str 
+command: str
+arguments: List[Optional[Union[str, int, float, complex, bool, EllipsisType, AST]]]
+```
+
+> ↑ Please note that you are transmitting a key, which means that the result is immediately returned filtered by this key. This way you can read only those comments that relate to your tool, ignoring the rest.
+
 By default, an argument in a comment must be of one of the strictly allowed types. However, you can enable reading of arbitrary other types, in which case they will be transmitted in the `AST` node format. To do this, pass `allow_ast=True`:
 
 ```python
