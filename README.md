@@ -114,8 +114,11 @@ The parser offered by this library is just one function that is imported like th
 from metacode import parse
 ```
 
-To use it, you need to extract the text of the comment in some third-party way (preferably, but not necessarily, without the # symbol at the beginning) and pass it, and the expected key must also be passed as the second argument. As a result, you will receive a list of the contents of all the comments that were parsed:
+To use it, you need to extract the text of the comment in some third-party way (preferably, but not necessarily, without the `#` symbol at the beginning) and pass it, and the expected key must also be passed as the second argument. As a result, you will receive a list of the contents of all the comments that were parsed:
 
 ```python
-parse('type: ignore[error-code]')
+print(parse('type: ignore[error-code]', 'type'))
+#> [ParsedComment(key='type', command='ignore', arguments=['error-code'])]
+print(parse('type: ignore[error-code] # type: not_ignore[another-error]', 'type'))
+#> [ParsedComment(key='type', command='ignore', arguments=['error-code']), ParsedComment(key='type', command='not_ignore', arguments=['another-error'])]
 ```
