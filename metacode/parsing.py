@@ -3,10 +3,11 @@ from ast import parse as ast_parse
 from dataclasses import dataclass
 from typing import Generator, List, Optional, Union
 
+# TODO: delete this catch block if minimum supported version of Python is > 3.9.
 try:
     from types import EllipsisType  # type: ignore[attr-defined, unused-ignore]
 except ImportError:  # pragma: no cover
-    EllipsisType = type(...)  # type: ignore[misc]
+    EllipsisType = type(...)  # type: ignore[misc, unused-ignore]
 
 from libcst import SimpleStatementLine
 from libcst import parse_module as cst_parse
