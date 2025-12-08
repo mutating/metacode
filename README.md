@@ -81,7 +81,7 @@ Simplified writing is also possible, without a list of arguments:
 
 The number of arguments in the list is unlimited, they can be separated by commas. Here are the valid data types for arguments:
 
-- Valid Python identifiers. They are interpreted as strings.
+- [Valid Python identifiers](https://docs.python.org/3/reference/lexical_analysis.html#identifiers). They are interpreted as strings.
 - Two valid Python identifiers, separated by the `-` symbol, like this: `error-code`. There can also be any number of spaces between them, they will be ignored. Interpreted as a single string.
 - String literals.
 - Numeric literals (`int`, `float`, `complex`).
