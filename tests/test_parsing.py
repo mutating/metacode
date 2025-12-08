@@ -1,4 +1,4 @@
-from ast import AST, BinOp, Name, Subscript, Index
+from ast import AST, BinOp, Index, Name, Subscript
 
 import pytest
 from full_match import match
