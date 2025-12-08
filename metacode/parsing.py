@@ -3,7 +3,7 @@ from ast import parse as ast_parse
 from dataclasses import dataclass
 from typing import Generator, List, Optional, Union
 
-# TODO: delete this catch block if minimum supported version of Python is > 3.9.
+# TODO: delete this catch block and "type: ignore" if minimum supported version of Python is > 3.9.
 try:
     from types import EllipsisType  # type: ignore[attr-defined, unused-ignore]
 except ImportError:  # pragma: no cover
