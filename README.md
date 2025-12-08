@@ -27,9 +27,22 @@ Many source code analysis tools use comments in a special format to mark it up. 
 
 In the Python ecosystem, there are many tools dealing with source code: linters, test coverage collection systems, and many others. Many of them use special comments, and as a rule, the style of these comments is very similar. Here are some examples:
 
-- [`Ruff`](https://docs.astral.sh/ruff/linter/#error-suppression): `# noqa`, `# noqa: E741, F841`, and `# ruff: noqa: F841`.
-- [`Black`](https://black.readthedocs.io/en/stable/usage_and_configuration/the_basics.html#ignoring-sections) and [`Ruff`](https://docs.astral.sh/ruff/formatter/#format-suppression): `# fmt: on` and `# fmt: off`.
-- [`Mypy`](https://discuss.python.org/t/ignore-mypy-specific-type-errors/58535): `# type: ignore` and `type: ignore[error-code]`.
+- [`Ruff`](https://docs.astral.sh/ruff/linter/#error-suppression), [`Vulture`](https://github.com/jendrikseipp/vulture?tab=readme-ov-file#flake8-noqa-comments) — `# noqa`, `# noqa: E741, F841`.
+- [`Black`](https://black.readthedocs.io/en/stable/usage_and_configuration/the_basics.html#ignoring-sections) and [`Ruff`](https://docs.astral.sh/ruff/formatter/#format-suppression) — `# fmt: on`, `# fmt: off`.
+- [`Mypy`](https://discuss.python.org/t/ignore-mypy-specific-type-errors/58535) — `# type: ignore`, `type: ignore[error-code]`.
+- [`Coverage`](https://coverage.readthedocs.io/en/7.13.0/excluding.html#default-exclusions) — `# pragma: no cover`, `# pragma: no branch`.
+- [`Isort`](https://pycqa.github.io/isort/docs/configuration/action_comments.html) — `# isort: skip`, `# isort: off`.
+- [`Bandit`](https://bandit.readthedocs.io/en/latest/config.html#suppressing-individual-lines) — `# nosec`.
+
+... and a lot others.
+
+
+
+
+
+
+
+
 
 
 
