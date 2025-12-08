@@ -68,7 +68,7 @@ def get_candidates(comment: str) -> Generator[ParsedComment, None, None]:
                     slice_content = assign.annotation.slice.elts  # type: ignore[attr-defined]  # pragma: no cover
                 # TODO: delete this branch if minimum supported version of Python is > 3.8 (we have the Index node only in old Pythons).
                 # TODO: also delete this the pragmas here.
-                elif isinstance(assign.annotation.slice, Index) and isinstance(assign.annotation.slice.value, Tuple):
+                elif isinstance(assign.annotation.slice, Index) and isinstance(assign.annotation.slice.value, Tuple):  # type: ignore[attr-defined]
                     slice_content = assign.annotation.slice.value.elts  # type: ignore[attr-defined]  # pragma: no cover
                 else:
                     slice_content = [assign.annotation.slice]  # type: ignore[attr-defined]
