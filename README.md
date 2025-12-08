@@ -89,7 +89,7 @@ The syntax of all these data types is completely similar to the Python original 
 There can be several comments in the `metacode` format. In this case, they should be interspersed with the `#` symbol, as if each subsequent comment is a comment on the previous one. You can also add regular text comments, they will just be ignored by the parser if they are not in `metacode` format:
 
 ``` python
-# type: ignore # This is a comment for mypy!
+# type: ignore # <- This is a comment for mypy! # fmt: off # <- And this is a comment for Ruff!
 ```
 
 If you scroll through this text [above](#why) to the examples of action comments from various tools, you may notice that the syntax of most of them (but not all) is it can be described using `metacode`, and if not, it can be easily adapted to `metacode`. Read on to learn how to use a ready-made parser in practice.
