@@ -47,7 +47,7 @@ This is exactly the problem that this library solves. It describes a simple and 
 
 ## The language
 
-So, this library offers a language for action comments. Its syntax is a subset of Python syntax, but without Python semantics, as full-fledged execution does not occur. The purpose of the language is simply to provide the developer with the content of the comment in a convenient way, if it is written in a compatible format. If the comment format is not compatible with the parser, it is simply ignored.
+So, this library offers a language for action comments. Its syntax is a subset of Python syntax, but without Python semantics, as full-fledged execution does not occur. The purpose of the language is simply to provide the developer with the content of the comment in a convenient way, if it is written in a compatible format. If the comment format is not compatible with the parser, it is ignored.
 
 From the point of view of the language, any meaningful comment can consist of 3 elements:
 
