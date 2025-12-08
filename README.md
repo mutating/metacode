@@ -36,6 +36,16 @@ In the Python ecosystem, there are many tools dealing with source code: linters,
 
 ... and a lot others.
 
+They seem very similar. But you know what? *There is no single standard for such comments*. Seriously.
+
+The internal implementation of reading such comments is also different. Someone uses regular expressions, someone uses even more primitive string processing tools, and someone uses full-fledged parsers, including a Python parser or even written from scratch.
+
+As a result, as a user, you need to remember the rules by which comments are written for each specific tool. And at the same time, you can't be sure that things like double comments (when you want to leave 2 comments for different tools in one line of code) will work in principle. And as the creator of such tools, you are faced with a seemingly simple task — just to read a comment — and find out for yourself that it suddenly turns out to be quite difficult, and there are many possible mistakes.
+
+This is exactly the problem that this library solves. It describes a simple and intuitive standard for action comments, and also offers a ready-made parser that creators of other tools can use.
+
+
+
 
 
 
