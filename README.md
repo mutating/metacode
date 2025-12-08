@@ -1,4 +1,4 @@
-# metacode
+![logo](https://raw.githubusercontent.com/pomponchik/skelet/develop/docs/assets/logo_1.svg)
 
 [![Downloads](https://static.pepy.tech/badge/metacode/month)](https://pepy.tech/project/metacode)
 [![Downloads](https://static.pepy.tech/badge/metacode)](https://pepy.tech/project/metacode)
