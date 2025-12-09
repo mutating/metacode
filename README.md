@@ -27,6 +27,7 @@ Many source code analysis tools use comments in a special format to mark it up. 
 - [**The language**](#the-language)
 - [**Installation**](#installation)
 - [**Usage**](#usage)
+- [**What about other languages?**](#what-about-other-languages)
 
 
 ## Why?
@@ -161,3 +162,36 @@ You can also easily add support for several different keys. To do this, pass a l
 print(parse('key: action # other_key: other_action', ['key', 'other_key']))
 #> [ParsedComment(key='key', command='action', arguments=[]), ParsedComment(key='other_key', command='other_action', arguments=[])]
 ```
+
+
+## What about other languages?
+
+If you are writing your Python-related tool not in Python, as is currently fashionable, but in some other language, such as Rust, you may want to adhere to the `metacode` standard for machine-readable comments, however, you cannot directly use the ready-made parser described [above](#usage). What to do?
+
+The proposed `metacode` language is a syntactic subset of Python. The original `metacode` parser allows you to read arbitrary arguments written in Python as AST nodes. The rules for such parsing are determined by the specific version of the interpreter that `metacode` runs under, and they cannot be strictly standardized, since [Python syntax](https://docs.python.org/3/reference/grammar.html) is gradually evolving in an unpredictable direction. However, you can use a "safe" subset of the valid syntax by implementing your parser based on this [`EBNF`](https://en.wikipedia.org/wiki/Extended_Backus%E2%80%93Naur_form) grammar:
+
+```
+line ::= element { "#" element }
+element ::= statement | ignored_content
+statement ::= key ":" action [ "[" arguments "]" ]
+ignored_content ::= ? any sequence of characters excluding "#" ?
+
+key ::= identifier
+action ::= identifier { "-" identifier }
+arguments ::= argument { "," argument }
+
+argument ::= hyphenated_identifier 
+           | identifier 
+           | string_literal 
+           | complex_literal 
+           | number_literal 
+           | "True" | "False" | "None" | "..."
+
+hyphenated_identifier ::= identifier "-" identifier
+identifier ::= ? python-style identifier ?
+string_literal ::= ? python-style string ?
+number_literal ::= ? python-style number ?
+complex_literal ::= ? python-style complex number ?
+```
+
+If you suddenly implement your ready-made open-source parser of this grammar in a language other than Python, please [let me know](https://github.com/pomponchik/metacode/issues). This information can be added to this text.
