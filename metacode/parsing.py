@@ -103,9 +103,13 @@ def get_candidates(comment: str) -> Generator[ParsedComment, None, None]:
             yield from get_candidates(get_right_part(comment))
 
 
-def parse(comment: str, key: str, allow_ast: bool = False, ignore_case: bool = False) -> List[ParsedComment]:
-    if not key.isidentifier():
-        raise ValueError('The key must be valid Python identifier.')
+def parse(comment: str, key: Union[str, List[str]], allow_ast: bool = False, ignore_case: bool = False) -> List[ParsedComment]:
+    keys: List[str] = [key] if isinstance(key, str) else key
+    for key in keys:
+        if not key.isidentifier():
+            raise ValueError('The key must be valid Python identifier.')
+    if ignore_case:
+        keys = [x.lower() for x in keys]
 
     result: List[ParsedComment] = []
 
@@ -115,7 +119,7 @@ def parse(comment: str, key: str, allow_ast: bool = False, ignore_case: bool = F
         return result
 
     for candidate in get_candidates(comment):
-        if candidate.key == key or (candidate.key.lower() == key.lower() and ignore_case):
+        if candidate.key in keys or (candidate.key.lower() in keys and ignore_case):
             for argument in candidate.arguments:
                 if isinstance(argument, AST) and not allow_ast:
                     raise UnknownArgumentTypeError(f'An argument of unknown type was found in the comment {comment!r}. If you want to process arbitrary code variants, not just constants, pass allow_ast=True.')

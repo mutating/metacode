@@ -147,3 +147,7 @@ def test_triple_subs():
     argument = parsed_comment.arguments[0]
 
     assert isinstance(argument, (BinOp, Index))
+
+
+def test_get_multiple_keys():
+    assert parse('lol: kek[a]# kek: lol[a]', ['lol', 'kek']) == [ParsedComment(key='lol', command='kek', arguments=['a']), ParsedComment(key='kek', command='lol', arguments=['a'])]
