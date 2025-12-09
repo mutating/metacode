@@ -156,3 +156,4 @@ def test_get_multiple_keys():
 
 def test_ignore_case():
     assert parse('KEY: action', 'key', ignore_case=True) == [ParsedComment(key='KEY', command='action', arguments=[])]
+    assert parse('lol: kek[a]# kek: lol[a]', ['lol', 'KEK'], ignore_case=True) == [ParsedComment(key='lol', command='kek', arguments=['a']), ParsedComment(key='kek', command='lol', arguments=['a'])]
