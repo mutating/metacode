@@ -40,9 +40,7 @@ In the Python ecosystem, there are many tools dealing with source code: linters,
 - [`Isort`](https://pycqa.github.io/isort/docs/configuration/action_comments.html) — `# isort: skip`, `# isort: off`.
 - [`Bandit`](https://bandit.readthedocs.io/en/latest/config.html#suppressing-individual-lines) — `# nosec`.
 
-... and a lot others.
-
-They seem very similar. But you know what? *There is no single standard for such comments*. Seriously.
+But you know what? *There is no single standard for such comments*. Seriously.
 
 The internal implementation of reading such comments is also different. Someone uses regular expressions, someone uses even more primitive string processing tools, and someone uses full-fledged parsers, including the Python parser or even written from scratch.
 
@@ -57,7 +55,7 @@ So, this library offers a language for action comments. Its syntax is a subset o
 
 From the point of view of the language, any meaningful comment can consist of 3 elements:
 
-- **Key**. This is usually the name of the specific tool for which this comment is intended, but in some cases it may be something else. This can be any string allowed as an identifier in Python.
+- **Key**. This is usually the name of the specific tool for which this comment is intended, but in some cases it may be something else. This can be any string allowed as an [identifier](https://docs.python.org/3/reference/lexical_analysis.html#identifiers) in Python.
 - **Action**. The short name of the action that you want to link to this line. Also, only the allowed Python identifier.
 - **List of arguments**. These are often some kind of identifiers of specific linting rules or other arguments associated with this action. The list of possible data types described below.
 
@@ -149,3 +147,17 @@ print(parse('key: action[a + b]', 'key', allow_ast=True))
 > ↑ If you do not pass `allow_ast=True`, a `metacode.errors.UnknownArgumentTypeError` exception will be raised. When processing an argument, you can also raise this exception for an AST node of a format that your tool does not expect.
 
 > ⚠️ Be careful when writing code that analyzes the AST. Different versions of the Python interpreter can generate different AST based on the same code, so don't forget to test your code (for example, using [matrix](https://docs.github.com/en/actions/how-tos/write-workflows/choose-what-workflows-do/run-job-variations) or [tox](https://tox.wiki/)) well. Otherwise, it is better to use standard `metacode` argument types.
+
+You can allow your users to write keys in any case. To do this, pass `ignore_case=True`:
+
+```python
+print(parse('KEY: action', 'key', ignore_case=True))
+#> [ParsedComment(key='KEY', command='action', arguments=[])]
+```
+
+You can also easily add support for several different keys. To do this, pass a list of keys instead of one key:
+
+```python
+print(parse('key: action # other_key: other_action', ['key', 'other_key']))
+#> [ParsedComment(key='key', command='action', arguments=[]), ParsedComment(key='other_key', command='other_action', arguments=[])]
+```
