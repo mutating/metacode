@@ -106,7 +106,7 @@ def get_candidates(comment: str) -> Generator[ParsedComment, None, None]:
 def parse(comment: str, key: Union[str, List[str]], allow_ast: bool = False, ignore_case: bool = False) -> List[ParsedComment]:
     keys: List[str] = [key] if isinstance(key, str) else key
     for one_key in keys:
-        if not key.isidentifier():
+        if not one_key.isidentifier():
             raise ValueError('The key must be valid Python identifier.')
     if ignore_case:
         keys = [x.lower() for x in keys]
