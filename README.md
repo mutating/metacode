@@ -169,7 +169,7 @@ Well, now we can read the comments. But what if we want to record? There is anot
 from metacode import insert, ParsedComment
 ```
 
-You send the comment you want to insert there, as well as the current comment (empty if there is no comment, or starting with # if there is), and you get a ready-made new comment text:
+You send the comment you want to insert there, as well as the current comment (empty if there is no comment, or starting with `#` if there is), and you get a ready-made new comment text:
 
 ```python
 print(insert(ParsedComment(key='key', command='command', arguments=['lol', 'lol-kek']), ''))
