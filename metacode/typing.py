@@ -3,7 +3,7 @@ from typing import List, Optional, Union
 
 # TODO: delete this catch blocks and "type: ignore" if minimum supported version of Python is > 3.9.
 try:
-    from typing import TypeAlias
+    from typing import TypeAlias  # type: ignore[attr-defined]
 except ImportError:  # pragma: no cover
     from typing_extensions import TypeAlias
 
