@@ -34,20 +34,20 @@ Many source code analysis tools use comments in a special format to mark it up. 
 
 In the Python ecosystem, there are many tools dealing with source code: linters, test coverage collection systems, and many others. Many of them use special comments, and as a rule, the style of these comments is very similar. Here are some examples:
 
-- [`Ruff`](https://docs.astral.sh/ruff/linter/#error-suppression), [`Vulture`](https://github.com/jendrikseipp/vulture?tab=readme-ov-file#flake8-noqa-comments) — `# noqa`, `# noqa: E741, F841`.
-- [`Black`](https://black.readthedocs.io/en/stable/usage_and_configuration/the_basics.html#ignoring-sections) and [`Ruff`](https://docs.astral.sh/ruff/formatter/#format-suppression) — `# fmt: on`, `# fmt: off`.
-- [`Mypy`](https://discuss.python.org/t/ignore-mypy-specific-type-errors/58535) — `# type: ignore`, `type: ignore[error-code]`.
-- [`Coverage`](https://coverage.readthedocs.io/en/7.13.0/excluding.html#default-exclusions) — `# pragma: no cover`, `# pragma: no branch`.
-- [`Isort`](https://pycqa.github.io/isort/docs/configuration/action_comments.html) — `# isort: skip`, `# isort: off`.
-- [`Bandit`](https://bandit.readthedocs.io/en/latest/config.html#suppressing-individual-lines) — `# nosec`.
+- [`Ruff`](https://docs.astral.sh/ruff/linter/#error-suppression), [`Vulture`](https://github.com/jendrikseipp/vulture?tab=readme-ov-file#flake8-noqa-comments) —> `# noqa`, `# noqa: E741, F841`.
+- [`Black`](https://black.readthedocs.io/en/stable/usage_and_configuration/the_basics.html#ignoring-sections) and [`Ruff`](https://docs.astral.sh/ruff/formatter/#format-suppression) —> `# fmt: on`, `# fmt: off`.
+- [`Mypy`](https://discuss.python.org/t/ignore-mypy-specific-type-errors/58535) —> `# type: ignore`, `type: ignore[error-code]`.
+- [`Coverage`](https://coverage.readthedocs.io/en/7.13.0/excluding.html#default-exclusions) —> `# pragma: no cover`, `# pragma: no branch`.
+- [`Isort`](https://pycqa.github.io/isort/docs/configuration/action_comments.html) —> `# isort: skip`, `# isort: off`.
+- [`Bandit`](https://bandit.readthedocs.io/en/latest/config.html#suppressing-individual-lines) —> `# nosec`.
 
-But you know what? *There is no single standard for such comments*. Seriously.
+But you know what? *There is no single standard for such comments*.
 
 The internal implementation of reading such comments is also different. Someone uses regular expressions, someone uses even more primitive string processing tools, and someone uses full-fledged parsers, including the Python parser or even written from scratch.
 
 As a result, as a user, you need to remember the rules by which comments are written for each specific tool. And at the same time, you can't be sure that things like double comments (when you want to leave 2 comments for different tools in one line of code) will work in principle. And as the creator of such tools, you are faced with a seemingly simple task — just to read a comment — and find out for yourself that it suddenly turns out to be quite difficult, and there are many possible mistakes.
 
-This is exactly the problem that this library solves. It describes a simple and intuitive standard for action comments, and also offers a ready-made parser that creators of other tools can use. The standard offered by this library is based entirely on a subset of the Python syntax and can be easily reimplemented even if you do not want to use this library directly.
+This is exactly the problem that this library solves. It describes a [simple and intuitive standard](https://xkcd.com/927/) for action comments, and also offers a ready-made parser that creators of other tools can use. The standard offered by this library is based entirely on a subset of the Python syntax and can be easily reimplemented even if you do not want to use this library directly.
 
 
 ## The language
@@ -162,6 +162,30 @@ You can also easily add support for several different keys. To do this, pass a l
 print(parse('key: action # other_key: other_action', ['key', 'other_key']))
 #> [ParsedComment(key='key', command='action', arguments=[]), ParsedComment(key='other_key', command='other_action', arguments=[])]
 ```
+
+Well, now we can read the comments. But what if we want to record? There is another function for this: `insert()`:
+
+```python
+from metacode import insert, ParsedComment
+```
+
+You send the comment you want to insert there, as well as the current comment (empty if there is no comment, or starting with # if there is), and you get a ready-made new comment text:
+
+```python
+print(insert(ParsedComment(key='key', command='command', arguments=['lol', 'lol-kek']), ''))
+# key: command[lol, 'lol-kek']
+print(insert(ParsedComment(key='key', command='command', arguments=['lol', 'lol-kek']), '# some existing text'))
+# key: command[lol, 'lol-kek'] # some existing text
+```
+
+As you can see, our comment is inserted before the existing comment. However, you can do the opposite:
+
+```python
+print(insert(ParsedComment(key='key', command='command', arguments=['lol', 'lol-kek']), '# some existing text', at_end=True))
+# some existing text # key: command[lol, 'lol-kek']
+```
+
+> ⚠️ Be careful: AST nodes can be read, but cannot be written.
 
 
 ## What about other languages?

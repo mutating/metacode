@@ -1,25 +1,13 @@
 from ast import AST, AnnAssign, BinOp, Constant, Index, Name, Sub, Subscript, Tuple
 from ast import parse as ast_parse
-from dataclasses import dataclass
 from typing import Generator, List, Optional, Union
-
-# TODO: delete this catch block and "type: ignore" if minimum supported version of Python is > 3.9.
-try:
-    from types import EllipsisType  # type: ignore[attr-defined, unused-ignore]
-except ImportError:  # pragma: no cover
-    EllipsisType = type(...)  # type: ignore[misc, unused-ignore]
 
 from libcst import SimpleStatementLine
 from libcst import parse_module as cst_parse
 
+from metacode.comment import ParsedComment
 from metacode.errors import UnknownArgumentTypeError
-
-
-@dataclass
-class ParsedComment:
-    key: str
-    command: str
-    arguments: List[Optional[Union[str, int, float, complex, bool, EllipsisType, AST]]]
+from metacode.typing import Arguments
 
 
 def get_right_part(comment: str) -> str:
@@ -57,7 +45,7 @@ def get_candidates(comment: str) -> Generator[ParsedComment, None, None]:
             assign = parsed_ast.body[0]
             key = assign.target.id  # type: ignore[union-attr]
 
-            arguments: List[Optional[Union[str, int, float, complex, bool, EllipsisType, AST]]] = []
+            arguments: Arguments = []
             if isinstance(assign.annotation, Name):
                 command = assign.annotation.id
 

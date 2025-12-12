@@ -4,12 +4,12 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "metacode"
-version = "0.0.3"
+version = "0.0.4"
 authors = [{ name = "Evgeniy Blinov", email = "zheni-b@yandex.ru" }]
-description = 'The standard language for machine-readable code comments'
+description = 'A standard language for machine-readable code comments'
 readme = "README.md"
 requires-python = ">=3.8"
-dependencies = ["libcst>=1.1.0 ; python_version == '3.8'", "libcst>=1.8.6 ; python_version > '3.8'"]
+dependencies = ["libcst>=1.1.0 ; python_version == '3.8'", "libcst>=1.8.6 ; python_version > '3.8'", "typing_extensions ; python_version <= '3.9'"]
 classifiers = [
     "Operating System :: OS Independent",
     'Operating System :: MacOS :: MacOS X',
