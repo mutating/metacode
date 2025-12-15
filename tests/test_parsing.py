@@ -4,6 +4,7 @@ import pytest
 from full_match import match
 
 from metacode import ParsedComment, UnknownArgumentTypeError, parse
+import sys
 
 
 def test_wrong_key():
@@ -85,17 +86,22 @@ def test_parse_ast_subscription_argument_when_its_allowed():
     ast_argument = parsed_comment.arguments[0]
 
     assert isinstance(ast_argument, AST)
-    # TODO: delete this shit about Index if minimum supported version of Python is > 3.8 (we have the Index node only in old Pythons).
-    assert isinstance(ast_argument, (Subscript, Index))
-    if isinstance(ast_argument, Index):
-        ast_argument = ast_argument.value
-    assert ast_argument.value.id == 'jej'
-    assert isinstance(ast_argument.slice, (Name, Index))
-    if isinstance(ast_argument.slice, Index):
-        assert ast_argument.slice.value.id == 'ok'
+    if sys.version_info <= (3, 8):
+        assert isinstance(ast_argument, (Subscript, Index))
+        if isinstance(ast_argument, Index):
+            ast_argument = ast_argument.value
+        assert ast_argument.id == 'jej'
+        assert isinstance(ast_argument.slice, (Name, Index))
+        if isinstance(ast_argument.slice, Index):
+            assert ast_argument.slice.value.id == 'ok'
+        else:
+            assert ast_argument.slice.id == 'ok'
     else:
+        assert isinstance(ast_argument, Subscript)
+        assert isinstance(ast_argument.value, Name)
+        assert ast_argument.value.id == 'jej'
+        assert isinstance(ast_argument.slice, Name)
         assert ast_argument.slice.id == 'ok'
-
 
 def test_parse_ast_complex_sum_argument_when_its_not_allowed():
     with pytest.raises(UnknownArgumentTypeError, match=match('An argument of unknown type was found in the comment \'lol: kek[3 + 5j]\'. If you want to process arbitrary code variants, not just constants, pass allow_ast=True.')):
