@@ -8,6 +8,7 @@ from libcst import parse_module as cst_parse
 from metacode.comment import ParsedComment
 from metacode.errors import UnknownArgumentTypeError
 from metacode.typing import Arguments
+import sys
 
 
 def get_right_part(comment: str) -> str:
@@ -53,19 +54,23 @@ def get_candidates(comment: str) -> Generator[ParsedComment, None, None]:
 
                 command = assign.annotation.value.id  # type: ignore[attr-defined]
 
-                if isinstance(assign.annotation.slice, Tuple):  # type: ignore[attr-defined]
-                    slice_content = assign.annotation.slice.elts  # type: ignore[attr-defined]  # pragma: no cover
-                # TODO: delete this branch if minimum supported version of Python is > 3.8 (we have the Index node only in old Pythons).
-                # TODO: also delete this the pragmas here.
-                elif isinstance(assign.annotation.slice, Index) and isinstance(assign.annotation.slice.value, Tuple):  # type: ignore[attr-defined]
-                    slice_content = assign.annotation.slice.value.elts  # type: ignore[attr-defined]  # pragma: no cover
+                if sys.version_info <= (3, 8):
+                    if isinstance(assign.annotation.slice, Tuple):  # type: ignore[attr-defined]
+                        slice_content = assign.annotation.slice.elts  # type: ignore[attr-defined]  # pragma: no cover
+                    elif isinstance(assign.annotation.slice, Index) and isinstance(assign.annotation.slice.value, Tuple):  # type: ignore[attr-defined]
+                        slice_content = assign.annotation.slice.value.elts  # type: ignore[attr-defined]  # pragma: no cover
+                    else:
+                        slice_content = [assign.annotation.slice]  # type: ignore[attr-defined]
                 else:
-                    slice_content = [assign.annotation.slice]  # type: ignore[attr-defined]
+                    if isinstance(assign.annotation.slice, Tuple):  # type: ignore[attr-defined]
+                        slice_content = assign.annotation.slice.elts  # type: ignore[attr-defined]
+                    else:
+                        slice_content = [assign.annotation.slice]  # type: ignore[attr-defined]
 
                 for argument in slice_content:
-                    # TODO: delete this branch if minimum supported version of Python is > 3.8 (we have the Index node only in old Pythons).
-                    if isinstance(argument, Index):  # pragma: no cover
-                        argument = argument.value  # noqa: PLW2901
+                    if sys.version_info <= (3, 8):
+                        if isinstance(argument, Index):  # pragma: no cover
+                            argument = argument.value  # noqa: PLW2901
                     if isinstance(argument, Name):
                         arguments.append(argument.id)
                     elif isinstance(argument, Constant):
