@@ -3,20 +3,20 @@
 
 [![Downloads](https://static.pepy.tech/badge/metacode/month)](https://pepy.tech/project/metacode)
 [![Downloads](https://static.pepy.tech/badge/metacode)](https://pepy.tech/project/metacode)
-[![Coverage Status](https://coveralls.io/repos/github/pomponchik/metacode/badge.svg?branch=main)](https://coveralls.io/github/pomponchik/metacode?branch=main)
-[![Lines of code](https://sloc.xyz/github/pomponchik/metacode/?category=code)](https://github.com/boyter/scc/)
-[![Hits-of-Code](https://hitsofcode.com/github/pomponchik/metacode?branch=main&label=Hits-of-Code&exclude=docs/)](https://hitsofcode.com/github/pomponchik/metacode/view?branch=main)
-[![Test-Package](https://github.com/pomponchik/metacode/actions/workflows/tests_and_coverage.yml/badge.svg)](https://github.com/pomponchik/metacode/actions/workflows/tests_and_coverage.yml)
+[![Coverage Status](https://coveralls.io/repos/github/mutating/metacode/badge.svg?branch=main)](https://coveralls.io/github/mutating/metacode?branch=main)
+[![Lines of code](https://sloc.xyz/github/mutating/metacode/?category=code)](https://github.com/boyter/scc/)
+[![Hits-of-Code](https://hitsofcode.com/github/mutating/metacode?branch=main&label=Hits-of-Code&exclude=docs/)](https://hitsofcode.com/github/mutating/metacode/view?branch=main)
+[![Test-Package](https://github.com/mutating/metacode/actions/workflows/tests_and_coverage.yml/badge.svg)](https://github.com/mutating/metacode/actions/workflows/tests_and_coverage.yml)
 [![Python versions](https://img.shields.io/pypi/pyversions/metacode.svg)](https://pypi.python.org/pypi/metacode)
 [![PyPI version](https://badge.fury.io/py/metacode.svg)](https://badge.fury.io/py/metacode)
 [![Checked with mypy](http://www.mypy-lang.org/static/mypy_badge.svg)](http://mypy-lang.org/)
 [![Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff)
-[![DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/pomponchik/metacode)
+[![DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/mutating/metacode)
 
 </details>
 
 
-![logo](https://raw.githubusercontent.com/pomponchik/metacode/develop/docs/assets/logo_3.svg)
+![logo](https://raw.githubusercontent.com/mutating/metacode/develop/docs/assets/logo_3.svg)
 
 Many source code analysis tools use comments in a special format to mark it up. This is an important part of the Python ecosystem, but there is still no single standard around it. This library offers such a standard.
 
@@ -218,4 +218,4 @@ number_literal ::= ? python-style number ?
 complex_literal ::= ? python-style complex number ?
 ```
 
-If you suddenly implement your ready-made open-source parser of this grammar in a language other than Python, please [let me know](https://github.com/pomponchik/metacode/issues). This information can be added to this text.
+If you suddenly implement your ready-made open-source parser of this grammar in a language other than Python, please [let me know](https://github.com/mutating/metacode/issues). This information can be added to this text.

@@ -48,5 +48,5 @@ lint.select = ["ERA001", "YTT", "ASYNC", "BLE", "B", "A", "COM", "INP", "PIE", "
 format.quote-style = "single"
 
 [project.urls]
-'Source' = 'https://github.com/pomponchik/metacode'
-'Tracker' = 'https://github.com/pomponchik/metacode/issues'
+'Source' = 'https://github.com/mutating/metacode'
+'Tracker' = 'https://github.com/mutating/metacode/issues'
