@@ -4,12 +4,16 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "metacode"
-version = "0.0.4"
+version = "0.0.5"
 authors = [{ name = "Evgeniy Blinov", email = "zheni-b@yandex.ru" }]
 description = 'A standard language for machine-readable code comments'
 readme = "README.md"
 requires-python = ">=3.8"
-dependencies = ["libcst>=1.1.0 ; python_version == '3.8'", "libcst>=1.8.6 ; python_version > '3.8'", "typing_extensions ; python_version <= '3.9'"]
+dependencies = [
+    "libcst>=1.1.0 ; python_version == '3.8'",
+    "libcst>=1.8.6 ; python_version > '3.8'",
+    "typing_extensions ; python_version <= '3.9'",
+]
 classifiers = [
     "Operating System :: OS Independent",
     'Operating System :: MacOS :: MacOS X',
@@ -30,7 +34,7 @@ classifiers = [
     'Intended Audience :: Developers',
     'Topic :: Software Development :: Libraries',
 ]
-keywords = ['CST', 'comments', 'type comments', 'lints']
+keywords = ['CST', 'AST', 'comments', 'type comments', 'lints', 'DSL']
 
 [tool.setuptools.package-data]
 "metacode" = ["py.typed"]
@@ -48,5 +52,5 @@ lint.select = ["ERA001", "YTT", "ASYNC", "BLE", "B", "A", "COM", "INP", "PIE", "
 format.quote-style = "single"
 
 [project.urls]
-'Source' = 'https://github.com/pomponchik/metacode'
-'Tracker' = 'https://github.com/pomponchik/metacode/issues'
+'Source' = 'https://github.com/mutating/metacode'
+'Tracker' = 'https://github.com/mutating/metacode/issues'

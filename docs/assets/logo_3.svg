@@ -17,7 +17,25 @@
    xmlns:xlink="http://www.w3.org/1999/xlink"
    xmlns="http://www.w3.org/2000/svg"
    xmlns:svg="http://www.w3.org/2000/svg"><defs
-   id="defs27" />
+   id="defs27"><linearGradient
+     id="linearGradient1"
+     inkscape:collect="always"><stop
+       style="stop-color:#ffffff;stop-opacity:0.30569947;"
+       offset="0"
+       id="stop1" /><stop
+       style="stop-color:#000000;stop-opacity:0;"
+       offset="1"
+       id="stop2" /></linearGradient><radialGradient
+     inkscape:collect="always"
+     xlink:href="#linearGradient1"
+     id="radialGradient2"
+     cx="291.9197"
+     cy="258.50001"
+     fx="291.9197"
+     fy="258.50001"
+     r="149.0803"
+     gradientTransform="matrix(1,0,0,0.88528287,0,29.654378)"
+     gradientUnits="userSpaceOnUse" /></defs>
 <style
    type="text/css"
    id="style1">
@@ -58,140 +76,160 @@
 </pattern>
 <g
    id="Слой_2"
-   transform="translate(-104.16667,-75)">
+   transform="translate(-104.16667,-75)"
+   style="fill:url(#radialGradient2);fill-opacity:1">
 	<line
    class="st1"
    x1="161.2"
    y1="128.3"
    x2="161.2"
    y2="390.39999"
-   id="line1" />
+   id="line1"
+   style="fill:url(#radialGradient2);fill-opacity:1" />
 	<line
    class="st1"
    x1="204.3"
    y1="128.3"
    x2="204.3"
    y2="390.39999"
-   id="line2" />
+   id="line2"
+   style="fill:url(#radialGradient2);fill-opacity:1" />
 	<line
    class="st1"
    x1="247.60001"
    y1="128.3"
    x2="247.60001"
    y2="390.39999"
-   id="line3" />
+   id="line3"
+   style="fill:url(#radialGradient2);fill-opacity:1" />
 	<line
    class="st1"
    x1="293.39999"
    y1="128.3"
    x2="293.39999"
    y2="390.39999"
-   id="line4" />
+   id="line4"
+   style="fill:url(#radialGradient2);fill-opacity:1" />
 	<line
    class="st1"
    x1="335"
    y1="128.3"
    x2="335"
    y2="390.39999"
-   id="line5" />
+   id="line5"
+   style="fill:url(#radialGradient2);fill-opacity:1" />
 	<line
    class="st1"
    x1="378"
    y1="128.3"
    x2="378"
    y2="390.39999"
-   id="line6" />
+   id="line6"
+   style="fill:url(#radialGradient2);fill-opacity:1" />
 	<line
    class="st1"
    x1="421.29999"
    y1="128.3"
    x2="421.29999"
    y2="390.39999"
-   id="line7" />
+   id="line7"
+   style="fill:url(#radialGradient2);fill-opacity:1" />
 	<line
    class="st1"
    x1="144.8"
    y1="135.5"
    x2="441"
    y2="135.5"
-   id="line8" />
+   id="line8"
+   style="fill:url(#radialGradient2);fill-opacity:1" />
 	<line
    class="st1"
    x1="144.8"
    y1="172"
    x2="441"
    y2="172"
-   id="line9" />
+   id="line9"
+   style="fill:url(#radialGradient2);fill-opacity:1" />
 	<line
    class="st1"
    x1="144.8"
    y1="207.60001"
    x2="441"
    y2="207.60001"
-   id="line10" />
+   id="line10"
+   style="fill:url(#radialGradient2);fill-opacity:1" />
 	<line
    class="st1"
    x1="144.8"
    y1="229.7"
    x2="441"
    y2="229.7"
-   id="line11" />
+   id="line11"
+   style="fill:url(#radialGradient2);fill-opacity:1" />
 	<line
    class="st1"
    x1="144.8"
    y1="266.10001"
    x2="441"
    y2="266.10001"
-   id="line12" />
+   id="line12"
+   style="fill:url(#radialGradient2);fill-opacity:1" />
 	<line
    class="st1"
    x1="144.8"
    y1="286.39999"
    x2="441"
    y2="286.39999"
-   id="line13" />
+   id="line13"
+   style="fill:url(#radialGradient2);fill-opacity:1" />
 	<line
    class="st1"
    x1="144.8"
    y1="321.29999"
    x2="441"
    y2="321.29999"
-   id="line14" />
+   id="line14"
+   style="fill:url(#radialGradient2);fill-opacity:1" />
 	<line
    class="st1"
    x1="144.8"
    y1="342.20001"
    x2="441"
    y2="342.20001"
-   id="line15" />
+   id="line15"
+   style="fill:url(#radialGradient2);fill-opacity:1" />
 	<line
    class="st1"
    x1="144.8"
    y1="377.5"
    x2="441"
    y2="377.5"
-   id="line16" />
+   id="line16"
+   style="fill:url(#radialGradient2);fill-opacity:1" />
 	<line
    class="st1"
    x1="350.60001"
    y1="390.20001"
    x2="426.89999"
    y2="126.8"
-   id="line17" />
+   id="line17"
+   style="fill:url(#radialGradient2);fill-opacity:1" />
 	<line
    class="st1"
    x1="306.70001"
    y1="390.20001"
    x2="383"
    y2="126.8"
-   id="line18" />
+   id="line18"
+   style="fill:url(#radialGradient2);fill-opacity:1" />
 	<line
    class="st1"
    x1="268.60001"
    y1="390.20001"
    x2="344.89999"
    y2="126.8"
-   id="line19" />
+   id="line19"
+   style="fill:url(#radialGradient2);fill-opacity:1" />
 	<line
    class="st1"
    x1="220.60001"
@@ -199,28 +237,31 @@
    x2="296.79999"
    y2="126.8"
    id="line20"
-   style="display:inline" />
+   style="display:inline;fill:url(#radialGradient2);fill-opacity:1" />
 	<line
    class="st1"
    x1="233.10001"
    y1="390.20001"
    x2="309.29999"
    y2="126.8"
-   id="line21" />
+   id="line21"
+   style="fill:url(#radialGradient2);fill-opacity:1" />
 	<line
    class="st1"
    x1="181.89999"
    y1="390.20001"
    x2="258.10001"
    y2="126.8"
-   id="line22" />
+   id="line22"
+   style="fill:url(#radialGradient2);fill-opacity:1" />
 	<line
    class="st1"
    x1="143.8"
    y1="390.20001"
    x2="220"
    y2="126.8"
-   id="line23" />
+   id="line23"
+   style="fill:url(#radialGradient2);fill-opacity:1" />
 </g>
 <g
    id="Layer_1">
@@ -229,7 +270,7 @@
    bordercolor="#000000"
    borderopacity="0.25"
    id="namedview873"
-   inkscape:current-layer="Layer_1"
+   inkscape:current-layer="Слой_2"
    inkscape:cx="621.56863"
    inkscape:cy="236.27451"
    inkscape:deskcolor="#d1d1d1"
