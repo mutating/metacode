@@ -32,7 +32,7 @@ Many source code analysis tools use specially formatted comments to annotate cod
 
 ## Why?
 
-In the Python ecosystem, there are many tools dealing with source code: linters, test coverage tools, and many others. Many of them use special comments, and their syntax is often very similar. Here are some examples:
+The Python ecosystem includes many source code tools, such as linters, coverage tools, and formatters. Many of them use special comments, and their syntax is often very similar. Here are some examples:
 
 - [`Ruff`](https://docs.astral.sh/ruff/linter/#error-suppression), [`Vulture`](https://github.com/jendrikseipp/vulture?tab=readme-ov-file#flake8-noqa-comments) —> `# noqa`, `# noqa: E741, F841`.
 - [`Black`](https://black.readthedocs.io/en/stable/usage_and_configuration/the_basics.html#ignoring-sections) and [`Ruff`](https://docs.astral.sh/ruff/formatter/#format-suppression) —> `# fmt: on`, `# fmt: off`.
@@ -129,24 +129,24 @@ print(parse('type: ignore[error-code] # type: not_ignore[another-error]', 'type'
 #> [ParsedComment(key='type', command='ignore', arguments=['error-code']), ParsedComment(key='type', command='not_ignore', arguments=['another-error'])]
 ```
 
-As you can see, the `parse()` function returns a list of `ParsedComment` objects. Here are the fields of this type's objects and their expected types:
+As you can see, the `parse()` function returns a list of `ParsedComment` objects. They all have the following fields:
 
 ```python
-key: str 
+key: str
 command: str
 arguments: List[Optional[Union[str, int, float, complex, bool, EllipsisType, AST]]]
 ```
 
 > ↑ Please note that you are passing a key, which means that the result is filtered by that key. This way you can read only those comments that relate to your tool, ignoring the rest.
 
-By default, an argument in a comment must be of one of the strictly allowed types. However, you can enable parsing of arbitrary expressions, in which case they will be returned in the [`AST` nodes](https://docs.python.org/3/library/ast.html#ast.AST). To do this, pass `allow_ast=True`:
+By default, an argument in a comment must be of one of the strictly allowed types. However, you can enable parsing of arbitrary expressions, in which case they will be returned as [`AST` nodes](https://docs.python.org/3/library/ast.html#ast.AST). To do this, pass `allow_ast=True`:
 
 ```python
 print(parse('key: action[a + b]', 'key', allow_ast=True))
 #> [ParsedComment(key='key', command='action', arguments=[<ast.BinOp object at 0x102e44eb0>])]
 ```
 
-> ↑ If you do not pass `allow_ast=True`, a `metacode.errors.UnknownArgumentTypeError` exception will be raised. When processing an argument, you can also raise this exception for an AST node of a format that your tool does not expect.
+> ↑ If you do not pass `allow_ast=True`, a `metacode.errors.UnknownArgumentTypeError` exception will be raised. When processing an argument, you can also raise this exception for an AST node in a form your tool does not support.
 
 > ⚠️ Be careful when writing code that analyzes the AST. Different versions of the Python interpreter can generate different ASTs for the same code, so don't forget to test your code (for example, using [matrix](https://docs.github.com/en/actions/how-tos/write-workflows/choose-what-workflows-do/run-job-variations) or [tox](https://tox.wiki/)) well. Otherwise, it is better to use standard `metacode` argument types.
 
