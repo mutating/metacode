@@ -18,7 +18,7 @@
 
 ![logo](https://raw.githubusercontent.com/mutating/metacode/develop/docs/assets/logo_3.svg)
 
-Many source code analysis tools use specially formatted comments to annotate code. This is an important part of the Python ecosystem, but there is still no single standard around it. This library offers such a standard.
+Many source code analysis tools use specially formatted comments to annotate code. This is an important part of the Python ecosystem, but there is still no single standard for it. This library offers such a standard.
 
 
 ## Table of contents
@@ -32,7 +32,7 @@ Many source code analysis tools use specially formatted comments to annotate cod
 
 ## Why?
 
-In the Python ecosystem, there are many tools dealing with source code: linters, test coverage collection systems, and many others. Many of them use special comments, and their syntax is often very similar. Here are some examples:
+In the Python ecosystem, there are many tools dealing with source code: linters, test coverage tools, and many others. Many of them use special comments, and their syntax is often very similar. Here are some examples:
 
 - [`Ruff`](https://docs.astral.sh/ruff/linter/#error-suppression), [`Vulture`](https://github.com/jendrikseipp/vulture?tab=readme-ov-file#flake8-noqa-comments) —> `# noqa`, `# noqa: E741, F841`.
 - [`Black`](https://black.readthedocs.io/en/stable/usage_and_configuration/the_basics.html#ignoring-sections) and [`Ruff`](https://docs.astral.sh/ruff/formatter/#format-suppression) —> `# fmt: on`, `# fmt: off`.
@@ -43,20 +43,20 @@ In the Python ecosystem, there are many tools dealing with source code: linters,
 
 But you know what? *There is no single standard for such comments*.
 
-The internal implementation of reading such comments is also different. Some tools use regular expressions, others rely on simple string processing, and someone uses full-fledged parsers, including the Python parser or even written from scratch.
+The way tools parse these comments also varies. Some tools use regular expressions, others rely on simple string processing, and still others use full-fledged parsers, including the Python parser or even written from scratch.
 
-As a result, as a user, you need to remember the rules by which comments are written for each specific tool. And at the same time, you can't be sure that things like double comments (when you want to leave 2 comments for different tools in one line of code) will work in principle. And as the creator of such tools, you are faced with a seemingly simple task — just to read a comment — and discover that it is surprisingly tricky, and there are many possible mistakes.
+As a result, as a user, you need to remember the rules by which comments are written for each specific tool. And at the same time, you can't be sure that things like double comments (when you want to leave two comments for different tools on the same line of code) will work in principle. And as the creator of such tools, you are faced with a seemingly simple task — just to read a comment — and discover that it is surprisingly tricky, and there are many possible mistakes.
 
-This is exactly the problem that this library solves. It describes a [simple and intuitive standard](https://xkcd.com/927/) for action comments, and also offers a ready-made parser that creators of other tools can use. The standard offered by this library is based entirely on a subset of the Python syntax and can be easily reimplemented even if you do not want to use this library directly.
+This is exactly the problem that this library solves. It describes a [simple and intuitive standard](https://xkcd.com/927/) for action comments, and also offers a ready-made parser that creators of other tools can use. The standard offered by this library is based entirely on a subset of Python syntax and can be easily reimplemented even if you do not want to use this library directly.
 
 
 ## The language
 
-So, this library offers a language for action comments. Its syntax is a subset of Python syntax, but without Python semantics, as full-fledged execution does not occur. The goal of the language is to expose comment contents in a convenient form, if it is written in a compatible format. If the comment format is not compatible with the parser, it is ignored.
+So, this library offers a language for action comments. Its syntax is a subset of Python syntax, but without Python semantics, because no code is executed. The goal of the language is to expose the contents of a comment in a convenient form when the comment is written in a compatible format. If the comment format is not compatible with the parser, it is ignored.
 
-From the point of view of the language, any meaningful comment can consist of 3 elements:
+From the point of view of the language, any meaningful comment can consist of three elements:
 
-- **Key**. This is usually the name of the specific tool for which this comment is intended, but in some cases it may be something else. This can be any string allowed as an [identifier](https://docs.python.org/3/reference/lexical_analysis.html#identifiers) in Python.
+- **Key**. This is usually the name of the tool the comment is intended for, but in some cases it may be something else. This can be any string allowed as an [identifier](https://docs.python.org/3/reference/lexical_analysis.html#identifiers) in Python.
 - **Action**. The short name of the action that you want to link to this line. Again, this must be a valid Python identifier.
 - **List of arguments**. These are often some kind of identifiers of specific linting rules or other arguments associated with this action. The possible data types are described below.
 
@@ -67,7 +67,8 @@ Consider a comment designed to ignore a specific mypy rule:
 └-key-┘└action┴-arguments┘
 ```
 
-> ↑ The key here is the word `type`, that is, what you see before the colon. The action is the `ignore` word, that is, what comes before the square brackets, but after the colon. Finally, the list of arguments is what is in square brackets, in this case, there is only one argument in it: `error-code`.
+
+> ↑ The key here is the word `type`, that is, what you see before the colon. The action is the `ignore` word, that is, what comes before the square brackets, but after the colon. Finally, the list of arguments is what appears in square brackets. In this case, it contains only one argument: `error-code`.
 
 Simplified writing is also possible, without a list of arguments:
 
@@ -76,9 +77,9 @@ Simplified writing is also possible, without a list of arguments:
 └-key-┘└action┘
 ```
 
-> ↑ In this case, the parser treats this as an empty argument `list`.
+> ↑ In this case, the parser treats this as an empty argument list.
 
-The number of arguments is unlimited; they can be separated by commas. Here are the valid data types for arguments:
+There can be any number of arguments; they can be separated by commas. Here are the valid data types for arguments:
 
 - [Valid Python identifiers](https://docs.python.org/3/reference/lexical_analysis.html#identifiers). They are interpreted as strings.
 - Two valid Python identifiers, separated by the `-` symbol, like this: `error-code`. There can be any number of spaces between them; they will be ignored. Interpreted as a single string.
@@ -89,7 +90,7 @@ The number of arguments is unlimited; they can be separated by commas. Here are 
 - `...` ([ellipsis](https://docs.python.org/dev/library/constants.html#Ellipsis)).
 - Any other Python expressions. This is disabled by default, but you can enable parsing of such code and receive such arguments as [`AST` nodes](https://docs.python.org/3/library/ast.html#ast.AST), after which you can somehow process it yourself.
 
-The syntax of all these data types is completely similar to the Python original (except that you can't use multi-line writing options). Over time, it is possible to extend the possible syntax of `metacode`, but this template will always be supported.
+The syntax of all these data types is completely similar to the Python original (except that you can't use multi-line writing options). Over time, it is possible to extend the syntax of `metacode`, but this core syntax will always be supported.
 
 There can be several comments in the `metacode` format. In this case, they should be separated by the `#` symbol, effectively chaining comments on the same line. You can also add regular text comments, they will just be ignored by the parser if they are not in `metacode` format:
 
@@ -97,7 +98,7 @@ There can be several comments in the `metacode` format. In this case, they shoul
 # type: ignore # <- This is a comment for mypy! # fmt: off # <- And this is a comment for Ruff!
 ```
 
-If you scroll through this text [above](#why) to the examples of action comments from various tools, you may notice that the syntax of most of them (but not all) can be described using `metacode`, and if not, it can be easily adapted to `metacode`. Read on to learn how to use a ready-made parser in practice.
+If you look back at the examples [above](#why) to the examples of action comments from various tools, you may notice that the syntax of most of them (but not all) can be described using `metacode`, and the rest can usually be adapted with minor changes. Read on to learn how to use a provided parser in practice.
 
 
 ## Installation
@@ -108,18 +109,18 @@ You can install [`metacode`](https://pypi.org/project/metacode/) with `pip`:
 pip install metacode
 ```
 
-You can also use [`instld`](https://github.com/pomponchik/instld) to quickly try this package and others without installing them.
+You can also use [`instld`](https://github.com/pomponchik/instld) to quickly try out this package and others without installing them.
 
 
 ## Usage
 
-The parser offered by this library is just one function that is imported like this:
+The library exposes a single parser function:
 
 ```python
 from metacode import parse
 ```
 
-To use it, you need to extract the comment text by any external means (preferably, but not necessarily, without the `#` symbol at the beginning) and pass it to the function, along with the expected key as the second argument. As a result, you will receive a list of the contents of all the comments that were parsed:
+To use it, you need to extract the comment text however you like (ideally without the leading `#`, though this is not required) and pass it to the function, along with the expected key as the second argument. The function returns a list of all parsed comments:
 
 ```python
 print(parse('type: ignore[error-code]', 'type'))
@@ -136,9 +137,9 @@ command: str
 arguments: List[Optional[Union[str, int, float, complex, bool, EllipsisType, AST]]]
 ```
 
-> ↑ Please note that you are passing a key, which means that the result is returned filtered by this key. This way you can read only those comments that relate to your tool, ignoring the rest.
+> ↑ Please note that you are passing a key, which means that the result is filtered by that key. This way you can read only those comments that relate to your tool, ignoring the rest.
 
-By default, an argument in a comment must be of one of the strictly allowed types. However, you can enable reading of arbitrary other types, in which case they will be returned in the [`AST` nodes](https://docs.python.org/3/library/ast.html#ast.AST). To do this, pass `allow_ast=True`:
+By default, an argument in a comment must be of one of the strictly allowed types. However, you can enable parsing of arbitrary expressions, in which case they will be returned in the [`AST` nodes](https://docs.python.org/3/library/ast.html#ast.AST). To do this, pass `allow_ast=True`:
 
 ```python
 print(parse('key: action[a + b]', 'key', allow_ast=True))
@@ -147,7 +148,7 @@ print(parse('key: action[a + b]', 'key', allow_ast=True))
 
 > ↑ If you do not pass `allow_ast=True`, a `metacode.errors.UnknownArgumentTypeError` exception will be raised. When processing an argument, you can also raise this exception for an AST node of a format that your tool does not expect.
 
-> ⚠️ Be careful when writing code that analyzes the AST. Different versions of the Python interpreter can generate different AST based on the same code, so don't forget to test your code (for example, using [matrix](https://docs.github.com/en/actions/how-tos/write-workflows/choose-what-workflows-do/run-job-variations) or [tox](https://tox.wiki/)) well. Otherwise, it is better to use standard `metacode` argument types.
+> ⚠️ Be careful when writing code that analyzes the AST. Different versions of the Python interpreter can generate different ASTs for the same code, so don't forget to test your code (for example, using [matrix](https://docs.github.com/en/actions/how-tos/write-workflows/choose-what-workflows-do/run-job-variations) or [tox](https://tox.wiki/)) well. Otherwise, it is better to use standard `metacode` argument types.
 
 You can allow your users to write keys in any letter case. To do this, pass `ignore_case=True`:
 
@@ -169,7 +170,7 @@ Well, now we can read the comments. But what if we want to write them? There is 
 from metacode import insert, ParsedComment
 ```
 
-You send the comment you want to insert there, as well as the current comment (empty if there is no comment, or starting with `#` if there is), and get the resulting comment text:
+Pass the comment you want to insert, as well as the current comment (empty if there is no comment, or starting with `#` if there is), and get the resulting comment text:
 
 ```python
 print(insert(ParsedComment(key='key', command='command', arguments=['lol', 'lol-kek']), ''))
@@ -190,7 +191,7 @@ print(insert(ParsedComment(key='key', command='command', arguments=['lol', 'lol-
 
 ## What about other languages?
 
-If you are writing your Python-related tool not in Python, as is currently fashionable, but in some other language, such as Rust, you may want to adhere to the `metacode` standard for machine-readable comments, however, you cannot directly use the ready-made parser described [above](#usage). What to do?
+If you are writing your Python-related tool in some other language, such as Rust, you may want to adhere to the `metacode` standard for machine-readable comments, however, you cannot directly use the ready-made parser described [above](#usage). What can you do in that case?
 
 The proposed `metacode` language is a syntactic subset of Python. The original `metacode` parser allows you to read arbitrary arguments written in Python as AST nodes. The rules for such parsing are determined by the specific version of the interpreter that `metacode` runs under, and they cannot be strictly standardized, since [Python syntax](https://docs.python.org/3/reference/grammar.html) is gradually evolving in an unpredictable direction. However, you can use a "safe" subset of the valid syntax by implementing your parser based on this [`EBNF`](https://en.wikipedia.org/wiki/Extended_Backus%E2%80%93Naur_form) grammar:
 
@@ -218,4 +219,4 @@ number_literal ::= ? python-style number ?
 complex_literal ::= ? python-style complex number ?
 ```
 
-If you implement an open-source parser of this grammar in a language other than Python, please [let me know](https://github.com/mutating/metacode/issues). This information can be added to this text.
+If you implement an open-source parser of this grammar in a language other than Python, please [let me know](https://github.com/mutating/metacode/issues). This information can be added to this README.
