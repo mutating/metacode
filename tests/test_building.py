@@ -7,6 +7,7 @@ from metacode import ParsedComment, build, insert
 
 
 def test_run_build_with_wrong_key_or_action():
+    """build(ParsedComment(...)) rejects invalid key and command identifiers as distinct validation failures."""
     with pytest.raises(ValueError, match=match('The key must be valid Python identifier.')):
         build(ParsedComment(
             key='123',
@@ -23,6 +24,7 @@ def test_run_build_with_wrong_key_or_action():
 
 
 def test_build_ast():
+    """build() rejects AST arguments instead of serializing arbitrary AST nodes."""
     with pytest.raises(TypeError, match=match('AST nodes are read-only and cannot be written to.')):
         build(ParsedComment(
             key='key',
@@ -32,6 +34,7 @@ def test_build_ast():
 
 
 def test_create_simple_comment():
+    """build() renders an empty-argument ParsedComment as '# key: command', omitting [] and using canonical spacing."""
     assert build(ParsedComment(
         key='key',
         command='command',
@@ -40,6 +43,7 @@ def test_create_simple_comment():
 
 
 def test_create_difficult_comment():
+    """build() formats supported arguments in brackets, leaving identifier strings bare and quoting other strings."""
     assert build(ParsedComment(
         key='key',
         command='command',
@@ -132,6 +136,7 @@ def test_create_difficult_comment():
 
 
 def test_insert_to_strange_comment():
+    """insert() rejects existing text that does not start with '#', even when the new comment is invalid."""
     with pytest.raises(ValueError, match=match('The existing part of the comment should start with a #.')):
         insert(ParsedComment(key='key', command='command', arguments=[]), 'kek', at_end=True)
 
@@ -146,6 +151,7 @@ def test_insert_to_strange_comment():
 
 
 def test_insert_at_begin_to_empty():
+    """Default insert into empty input returns build(comment) directly."""
     comment = ParsedComment(
         key='key',
         command='command',
@@ -156,6 +162,7 @@ def test_insert_at_begin_to_empty():
 
 
 def test_insert_at_end_to_empty():
+    """Inserting with at_end=True into empty input returns build(comment) directly."""
     comment = ParsedComment(
         key='key',
         command='command',
@@ -166,6 +173,7 @@ def test_insert_at_end_to_empty():
 
 
 def test_insert_at_begin_to_not_empty():
+    """Default insert prepends the built comment, trims leading whitespace, uses one separator, and does not deduplicate."""
     comment = ParsedComment(
         key='key',
         command='command',
@@ -178,6 +186,7 @@ def test_insert_at_begin_to_not_empty():
 
 
 def test_insert_at_end_to_not_empty():
+    """at_end=True appends metacode after existing comment text with one separator space and no deduplication."""
     comment = ParsedComment(
         key='key',
         command='command',
