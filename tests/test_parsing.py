@@ -7,25 +7,30 @@ from metacode import ParsedComment, UnknownArgumentTypeError, parse
 
 
 def test_wrong_key():
+    """Raise ValueError for an invalid expected key."""
     with pytest.raises(ValueError, match=match('The key must be valid Python identifier.')):
         parse('abc', '123')
 
 
 def test_empty_string():
+    """Return no comments for an empty input string."""
     assert parse('', 'kek') == []
 
 
 def test_only_not_python_code():
+    """Return no comments for non-metacode text, including hash-separated ordinary text."""
     assert parse('run, Forest, run!', 'lol') == []
     assert parse('run, Forest, run! # kek!', 'lol') == []
 
 
 def test_one_simplest_expression():
+    """Parse bare key: command as one no-arg comment, and filter by key rather than command."""
     assert parse('lol: kek', 'lol') == [ParsedComment(key='lol', command='kek', arguments=[])]
     assert parse('lol: kek', 'kek') == []
 
 
 def test_expressions_with_not_python_code():
+    """Skip noisy non-metacode chunks in # chains and return valid fragments in source order."""
     assert parse('lol: kek # run, Forest, run!', 'lol') == [ParsedComment(key='lol', command='kek', arguments=[])]
     assert parse('run, Forest, run! #lol: kek', 'lol') == [ParsedComment(key='lol', command='kek', arguments=[])]
     assert parse('run, Forest, run! # lol: kek', 'lol') == [ParsedComment(key='lol', command='kek', arguments=[])]
@@ -36,11 +41,13 @@ def test_expressions_with_not_python_code():
 
 
 def test_two_simplest_expressions_with_same_keys():
+    """Return same-key no-arg comments from one #-chained line; keys are not matched against commands."""
     assert parse('lol: kek # lol: kekokek', 'lol') == [ParsedComment(key='lol', command='kek', arguments=[]), ParsedComment(key='lol', command='kekokek', arguments=[])]
     assert parse('lol: kek # lol: kekokek', 'kek') == []
 
 
 def test_one_difficult_expression():
+    """Parse bracketed arguments, treating bare names as strings and preserving order."""
     assert parse('lol: kek[a]', 'lol') == [ParsedComment(key='lol', command='kek', arguments=['a'])]
     assert parse('lol: kek[a, b, c]', 'lol') == [ParsedComment(key='lol', command='kek', arguments=['a', 'b', 'c'])]
     assert parse('lol: kek[a, b, "c"]', 'lol') == [ParsedComment(key='lol', command='kek', arguments=['a', 'b', 'c'])]
@@ -53,6 +60,7 @@ def test_one_difficult_expression():
 
 
 def test_parse_ast_complex_sum_argument_when_its_allowed():
+    """Accept `3 + 5j` as a BinOp argument when allow_ast=True."""
     parsed_comments = parse('lol: kek[3 + 5j]', 'lol', allow_ast=True)
 
     assert len(parsed_comments) == 1
@@ -72,6 +80,7 @@ def test_parse_ast_complex_sum_argument_when_its_allowed():
 
 
 def test_parse_ast_subscription_argument_when_its_allowed():
+    """Accept `jej[ok]` as an AST subscript argument when allow_ast=True."""
     parsed_comments = parse('lol: kek[jej[ok]]', 'lol', allow_ast=True)
 
     assert len(parsed_comments) == 1
@@ -98,17 +107,20 @@ def test_parse_ast_subscription_argument_when_its_allowed():
 
 
 def test_parse_ast_complex_sum_argument_when_its_not_allowed():
+    """Reject `3 + 5j` by default because allow_ast is required for BinOp arguments."""
     with pytest.raises(UnknownArgumentTypeError, match=match('An argument of unknown type was found in the comment \'lol: kek[3 + 5j]\'. If you want to process arbitrary code variants, not just constants, pass allow_ast=True.')):
         parse('lol: kek[3 + 5j]', 'lol')
 
 
 def test_multiple_not_simple_expressions():
+    """Parse chained same-key comments with bracketed and no-arg forms in order."""
     assert parse('lol: kek[a] # lol: kek[a, b, c]', 'lol') == [ParsedComment(key='lol', command='kek', arguments=['a']), ParsedComment(key='lol', command='kek', arguments=['a', 'b', 'c'])]
     assert parse('lol: kek[a] # lol: kek', 'lol') == [ParsedComment(key='lol', command='kek', arguments=['a']), ParsedComment(key='lol', command='kek', arguments=[])]
     assert parse('lol: kek[a, b, c] # lol: kek', 'lol') == [ParsedComment(key='lol', command='kek', arguments=['a', 'b', 'c']), ParsedComment(key='lol', command='kek', arguments=[])]
 
 
 def test_empty_subcomment():
+    """Ignore empty, hash-only, and malformed fragments; hash-only noise does not hide later metacode."""
     assert parse('kek! # #c[]: lel', 'lol') == []
     assert parse('kek! ##c[]: lel', 'lol') == []
     assert parse('##c[]: lel', 'lol') == []
@@ -119,10 +131,17 @@ def test_empty_subcomment():
 
 
 def test_sub_expressions_in_arguments():
+    """Default parsing treats `a-b` as the string argument 'a-b'."""
     assert parse('lol: kek[a-b]', 'lol') == [ParsedComment(key='lol', command='kek', arguments=['a-b'])]
 
 
 def test_plus_expressions_in_arguments():
+    """
+    Treat `a+b` as AST-only syntax, not as a plain string argument.
+
+    Default parsing raises UnknownArgumentTypeError; allow_ast=True returns one
+    AST argument while preserving the key and command.
+    """
     with pytest.raises(UnknownArgumentTypeError, match=match('An argument of unknown type was found in the comment \'lol: kek[a+b]\'. If you want to process arbitrary code variants, not just constants, pass allow_ast=True.')):
         parse('lol: kek[a+b]', 'lol')
 
@@ -137,6 +156,7 @@ def test_plus_expressions_in_arguments():
 
 
 def test_triple_subs():
+    """Reject `a-b-c` by default; allow_ast=True returns it as an AST argument."""
     with pytest.raises(UnknownArgumentTypeError, match=match('An argument of unknown type was found in the comment \'lol: kek[a-b-c]\'. If you want to process arbitrary code variants, not just constants, pass allow_ast=True.')):
         parse('lol: kek[a-b-c]', 'lol')
 
@@ -150,10 +170,12 @@ def test_triple_subs():
 
 
 def test_get_multiple_keys():
+    """Multiple expected keys return matching chained comments in order, and ignore_case applies to every expected key."""
     assert parse('lol: kek[a]# kek: lol[a]', ['lol', 'kek']) == [ParsedComment(key='lol', command='kek', arguments=['a']), ParsedComment(key='kek', command='lol', arguments=['a'])]
     assert parse('lol: kek[a]# kek: lol[a]', ['lol', 'KEK'], ignore_case=True) == [ParsedComment(key='lol', command='kek', arguments=['a']), ParsedComment(key='kek', command='lol', arguments=['a'])]
 
 
 def test_ignore_case():
+    """ignore_case matches key filters case-insensitively while preserving source key casing."""
     assert parse('KEY: action', 'key', ignore_case=True) == [ParsedComment(key='KEY', command='action', arguments=[])]
     assert parse('lol: kek[a]# kek: lol[a]', ['lol', 'KEK'], ignore_case=True) == [ParsedComment(key='lol', command='kek', arguments=['a']), ParsedComment(key='kek', command='lol', arguments=['a'])]
